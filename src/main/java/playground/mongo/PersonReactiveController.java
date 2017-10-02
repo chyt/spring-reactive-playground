@@ -21,7 +21,6 @@ import playground.Person;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import org.springframework.context.annotation.Profile;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,7 +31,6 @@ import org.springframework.web.bind.annotation.RestController;
  * @author Sebastien Deleuze
  * @author Mark Paluch
  */
-@Profile("mongo")
 @RestController
 public class PersonReactiveController {
 
@@ -44,7 +42,7 @@ public class PersonReactiveController {
 
 	@PostMapping("/mongo")
 	Mono<Void> create(@RequestBody Publisher<Person> personStream) {
-		return this.repository.save(personStream).then();
+		return this.repository.saveAll(personStream).then();
 	}
 
 	@GetMapping("/mongo")
@@ -54,7 +52,7 @@ public class PersonReactiveController {
 
 	@GetMapping("/mongo/{id}")
 	Mono<Person> findById(@PathVariable String id) {
-		return this.repository.findOne(id);
+		return this.repository.findById(id);
 	}
 
 }

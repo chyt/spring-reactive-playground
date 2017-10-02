@@ -27,8 +27,8 @@ import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.reactive.HandlerMapping;
 import org.springframework.web.reactive.config.CorsRegistry;
-import org.springframework.web.reactive.config.EnableWebReactive;
-import org.springframework.web.reactive.config.WebReactiveConfigurer;
+import org.springframework.web.reactive.config.EnableWebFlux;
+import org.springframework.web.reactive.config.WebFluxConfigurer;
 import org.springframework.web.reactive.handler.SimpleUrlHandlerMapping;
 import org.springframework.web.reactive.socket.WebSocketHandler;
 import org.springframework.web.reactive.socket.server.WebSocketService;
@@ -40,9 +40,9 @@ import org.springframework.web.reactive.socket.server.upgrade.ReactorNettyReques
  * @author Sebastien Deleuze
  */
 @SpringBootApplication
-@EnableWebReactive
+@EnableWebFlux
 @EnableAutoConfiguration(exclude={MongoAutoConfiguration.class, MongoDataAutoConfiguration.class})
-public class Application implements WebReactiveConfigurer {
+public class Application implements WebFluxConfigurer {
 
 	public static void main(String[] args) throws Exception {
 		SpringApplication.run(Application.class, args);

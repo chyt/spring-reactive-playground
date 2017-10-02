@@ -17,10 +17,10 @@
 package playground.mongo;
 
 import playground.Person;
-import rx.Observable;
-import rx.Single;
+import io.reactivex.Single;
+import io.reactivex.Observable;
+import io.reactivex.Flowable;
 
-import org.springframework.context.annotation.Profile;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,29 +31,28 @@ import org.springframework.web.bind.annotation.RestController;
  * @author Sebastien Deleuze
  * @author Mark Paluch
  */
-@Profile("mongo")
 @RestController
-public class PersonRxJava1Controller {
+public class PersonController {
 
-	private final PersonRxJava1CrudRepository repository;
+	private final PersonCrudRepository repository;
 
-	public PersonRxJava1Controller(PersonRxJava1CrudRepository repository) {
+	public PersonController(PersonCrudRepository repository) {
 		this.repository = repository;
 	}
 
 	@PostMapping("/rxjava/mongo")
-	Observable<Person> create(@RequestBody Observable<Person> personStream) {
-		return this.repository.save(personStream);
+	Flowable<Person> create(@RequestBody Flowable<Person> personStream) {
+		return this.repository.saveAll(personStream);
 	}
 
 	@GetMapping("/rxjava/mongo")
-	Observable<Person> list() {
+	Flowable<Person> list() {
 		return this.repository.findAll();
 	}
 
 	@GetMapping("/rxjava/mongo/{id}")
 	Single<Person> findById(@PathVariable String id) {
-		return this.repository.findOne(id).toSingle();
+		return this.repository.findById(id).toSingle();
 	}
 
 }
