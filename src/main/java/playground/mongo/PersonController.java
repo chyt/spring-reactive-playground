@@ -18,7 +18,6 @@ package playground.mongo;
 
 import playground.Person;
 import io.reactivex.Single;
-import io.reactivex.Observable;
 import io.reactivex.Flowable;
 
 import org.springframework.web.bind.annotation.GetMapping;

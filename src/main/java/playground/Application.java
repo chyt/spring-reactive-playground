@@ -24,6 +24,7 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration;
 import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.reactive.HandlerMapping;
 import org.springframework.web.reactive.config.CorsRegistry;
@@ -42,7 +43,7 @@ import org.springframework.web.reactive.socket.server.upgrade.ReactorNettyReques
 @SpringBootApplication
 @EnableWebFlux
 @EnableAutoConfiguration(exclude={MongoAutoConfiguration.class, MongoDataAutoConfiguration.class})
-public class Application implements WebFluxConfigurer {
+public class Application extends SpringBootServletInitializer implements WebFluxConfigurer {
 
 	public static void main(String[] args) throws Exception {
 		SpringApplication.run(Application.class, args);
@@ -55,7 +56,7 @@ public class Application implements WebFluxConfigurer {
 
 	@Bean
 	public HandlerMapping handlerMapping() {
-
+		System.out.println("WEBSOCKET HANDLER INITIALIZED");
 		Map<String, WebSocketHandler> map = new HashMap<>();
 		map.put("/websocket/echo", new EchoWebSocketHandler());
 

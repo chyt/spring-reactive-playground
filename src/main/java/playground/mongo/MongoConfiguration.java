@@ -39,7 +39,7 @@ import playground.Person;
 @EnableReactiveMongoRepositories
 public class MongoConfiguration extends AbstractReactiveMongoConfiguration {
 
-    @Value("${mongo.database}")
+    @Value("test")
     private String database;
 
     @Bean

@@ -32,6 +32,9 @@ public class EchoWebSocketHandler implements WebSocketHandler {
 	@Override
 	public Mono<Void> handle(WebSocketSession session) {
 		// Use retain() for Reactor Netty
-		return session.send(session.receive().doOnNext(WebSocketMessage::retain).delayElements(Duration.ofSeconds(2)));
+		System.out.println("WEBSOCKET MESSAGE RECEIVED, SENDING RESPONSE --------");
+		//return session.send(session.receive().doOnNext(WebSocketMessage::retain).delayElements(Duration.ofSeconds(2)));
+		return session.send(session.receive().delayElements(Duration.ofSeconds(2)));
+
 	}
 }

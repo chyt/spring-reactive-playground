@@ -7,21 +7,27 @@ buildscript {
 		maven { url "https://repo.spring.io/snapshot" }
 		maven { url "https://repo.spring.io/milestone" }
         maven { url "https://plugins.gradle.com/m2/" }
+		maven {
+			name = 'Sonatype Nexus Snapshots'
+			url = 'https://oss.sonatype.org/content/repositories/snapshots/'
+		}
 	}
 	dependencies {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
 	    classpath("io.spring.gradle:dependency-management-plugin:1.0.3.RELEASE")
+		classpath 'net.wasdev.wlp.gradle.plugins:liberty-gradle-plugin:2.0-SNAPSHOT'
     }
 }
 
-apply plugin: 'java'
-apply plugin: 'org.springframework.boot'
-apply plugin: 'io.spring.dependency-management'
-
-jar {
-	baseName = 'spring-reactive-playground'
-	version = '0.1.0-SNAPSHOT'
+plugins {
+	id 'org.springframework.boot' version '1.5.7.RELEASE'
 }
+
+apply plugin: 'war'
+apply plugin: 'eclipse'
+//apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+apply plugin: 'liberty'
 
 repositories {
 	mavenCentral()
@@ -30,9 +36,33 @@ repositories {
 	maven { url "https://repo.spring.io/milestone" }
 }
 
+ext {
+	// Liberty server properties
+	wlpServerName = 'LibertyProjectServer'
+	serverDirectory = "${project.buildDir}/wlp/usr/servers/${wlpServerName}"
+	testServerHttpPort = 9080
+	testServerHttpsPort = 9443
+	warContext = 'jpaApp'
+}
+
+war {
+	//archiveName = baseName + '.' + extension
+	archiveName = 'spring-reactive-playground.war'
+}
+
+liberty {
+server{
+	configFile = file("src/test/resources/server.xml")
+			bootstrapProperties = ['default.http.port': "${testServerHttpPort}" , 'default.https.port': "${testServerHttpsPort}", 'appContext': "${warContext}",'appLocation': "${war.archiveName}"]
+	name = 'LibertyProjectServer'
+	apps = [war]
+	looseApplication = false
+ }
+}
+
 dependencyManagement {
 	imports {
-		mavenBom "org.springframework.boot:spring-boot-starter-webflux:2.0.0.BUILD-SNAPSHOT"
+		mavenBom "org.springframework.boot:spring-boot-starter-webflux:${springBootVersion}"
 	}
 }
 
@@ -41,19 +71,20 @@ dependencies {
 	compile "io.reactivex.rxjava2:rxjava:2.1.4"
 	compile "io.reactivex:rxjava-reactive-streams:1.2.1"
 
-	compile "org.springframework.data:spring-data-commons:2.0.0.BUILD-SNAPSHOT"
-	compile "org.springframework.data:spring-data-mongodb:2.0.0.BUILD-SNAPSHOT"
-	//compile('org.springframework.boot:spring-boot-starter-data-mongodb-reactive')
+	compile "org.springframework.data:spring-data-commons:2.0.0.RELEASE"
+	compile "org.springframework.data:spring-data-mongodb:2.0.0.RELEASE"
     compile "org.mongodb:mongodb-driver-reactivestreams:1.2.0"
 
 	// With Tomcat
 	//compile "org.springframework.boot.experimental:spring-boot-starter-web-reactive"
+	compile('org.springframework.boot:spring-boot-starter-webflux')
+	compile('org.springframework.boot:spring-boot-starter-web')
 
 	// With Reactor Netty
 	compile('org.springframework.boot:spring-boot-starter-webflux') {
 		exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
 	}
-	compile "io.projectreactor.ipc:reactor-netty"
+	//compile "io.projectreactor.ipc:reactor-netty"
 
 
 	// With RxNetty
