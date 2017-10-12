@@ -24,7 +24,6 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration;
 import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
-import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.reactive.HandlerMapping;
 import org.springframework.web.reactive.config.CorsRegistry;
@@ -36,6 +35,7 @@ import org.springframework.web.reactive.socket.server.WebSocketService;
 import org.springframework.web.reactive.socket.server.support.HandshakeWebSocketService;
 import org.springframework.web.reactive.socket.server.support.WebSocketHandlerAdapter;
 import org.springframework.web.reactive.socket.server.upgrade.ReactorNettyRequestUpgradeStrategy;
+import org.springframework.web.reactive.support.AbstractAnnotationConfigDispatcherHandlerInitializer;
 
 /**
  * @author Sebastien Deleuze
@@ -43,7 +43,7 @@ import org.springframework.web.reactive.socket.server.upgrade.ReactorNettyReques
 @SpringBootApplication
 @EnableWebFlux
 @EnableAutoConfiguration(exclude={MongoAutoConfiguration.class, MongoDataAutoConfiguration.class})
-public class Application extends SpringBootServletInitializer implements WebFluxConfigurer {
+public class Application extends AbstractAnnotationConfigDispatcherHandlerInitializer implements WebFluxConfigurer {
 
 	public static void main(String[] args) throws Exception {
 		SpringApplication.run(Application.class, args);
@@ -73,5 +73,11 @@ public class Application extends SpringBootServletInitializer implements WebFlux
 	@Bean
 	public WebSocketService webSocketService() {
 		return new HandshakeWebSocketService(new ReactorNettyRequestUpgradeStrategy());
+	}
+
+	@Override
+	protected Class<?>[] getConfigClasses() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

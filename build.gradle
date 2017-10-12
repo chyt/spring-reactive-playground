@@ -75,47 +75,11 @@ dependencies {
 	compile "org.springframework.data:spring-data-mongodb:2.0.0.RELEASE"
     compile "org.mongodb:mongodb-driver-reactivestreams:1.2.0"
 
-	// With Tomcat
-	//compile "org.springframework.boot.experimental:spring-boot-starter-web-reactive"
-	compile('org.springframework.boot:spring-boot-starter-webflux')
-	compile('org.springframework.boot:spring-boot-starter-web')
-
-	// With Reactor Netty
 	compile('org.springframework.boot:spring-boot-starter-webflux') {
 		exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
 	}
-	//compile "io.projectreactor.ipc:reactor-netty"
-
-
-	// With RxNetty
-	/*
-	compile('org.springframework.boot.experimental:spring-boot-starter-web-reactive') {
-		exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
-	}
-	compile "io.reactivex:rxnetty-common"
-	compile "io.reactivex:rxnetty-http"
-	*/
-
-	// With Undertow
-	/*
-	compile('org.springframework.boot.experimental:spring-boot-starter-web-reactive') {
-		exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
-	}
-	compile "io.undertow:undertow-core"
-	*/
-
-	// With Jetty
-	/*
-	compile('org.springframework.boot.experimental:spring-boot-starter-web-reactive') {
-		exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
-	}
-	compile("org.eclipse.jetty:jetty-server")
-	compile("org.eclipse.jetty:jetty-servlet")
-	compile("org.eclipse.jetty:jetty-util")
-	compile("org.eclipse.jetty:jetty-security")
-	compile("org.eclipse.jetty:jetty-io")
-	compile("org.eclipse.jetty:jetty-http")
-	*/
+	
+	compile('javax.servlet:javax.servlet-api:3.1.0')
 
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }
