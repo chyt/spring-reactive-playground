@@ -1,6 +1,6 @@
 buildscript {
 	ext {
-		springBootVersion = '2.0.0.M4'
+		springBootVersion = '2.0.0.M5'
 	}
 	repositories {
 		mavenCentral()
@@ -11,6 +11,7 @@ buildscript {
 			name = 'Sonatype Nexus Snapshots'
 			url = 'https://oss.sonatype.org/content/repositories/snapshots/'
 		}
+		maven { url "https://repo.spring.io/milestone" }
 	}
 	dependencies {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
@@ -79,7 +80,7 @@ dependencies {
 		exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
 	}
 	
-	compile('javax.servlet:javax.servlet-api:3.1.0')
+	compileOnly('javax.servlet:javax.servlet-api:3.1.0')
 
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }

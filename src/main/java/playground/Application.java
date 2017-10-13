@@ -28,6 +28,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.web.reactive.HandlerMapping;
 import org.springframework.web.reactive.config.CorsRegistry;
 import org.springframework.web.reactive.config.EnableWebFlux;
+import org.springframework.web.reactive.config.ResourceHandlerRegistry;
 import org.springframework.web.reactive.config.WebFluxConfigurer;
 import org.springframework.web.reactive.handler.SimpleUrlHandlerMapping;
 import org.springframework.web.reactive.socket.WebSocketHandler;
@@ -53,6 +54,11 @@ public class Application extends AbstractAnnotationConfigDispatcherHandlerInitia
 	public void addCorsMappings(CorsRegistry registry) {
 		registry.addMapping("/cors/config");
 	}
+	
+	/*@Override
+	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+		registry.addResourceHandler()
+	}*/
 
 	@Bean
 	public HandlerMapping handlerMapping() {
